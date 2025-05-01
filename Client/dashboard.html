@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Password Manager</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .dashboard {
+      width: 600px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    input, select {
+      margin: 8px 0;
+      padding: 10px;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    td span {
+      cursor: pointer;
+      color: blue;
+    }
+
+    .btn {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <h2>Welcome to Password Manager</h2>
+
+    <form id="passwordForm">
+      <select id="type" required>
+        <option value="">Select Type</option>
+        <option value="gmail">Gmail</option>
+        <option value="app">App</option>
+      </select>
+      <input type="text" id="account" placeholder="Email or App Name" required />
+      <input type="text" id="password" placeholder="Password" required />
+      <button type="submit" class="btn">Save Password</button>
+    </form>
+
+    <hr>
+
+    <h3>Password Generator</h3>
+    <select id="strength">
+      <option value="strong">Strong</option>
+      <option value="medium">Medium</option>
+      <option value="weak">Weak</option>
+    </select>
+    <button class="btn" onclick="generatePassword()">Generate Password</button>
+    <p id="generated"></p>
+
+    <hr>
+    <h3>Saved Passwords</h3>
+    <table id="passwordTable">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Account</th>
+          <th>Password</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <button class="btn" onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "login.html";
+
+    // Save password
+    document.getElementById("passwordForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const type = document.getElementById("type").value;
+      const account = document.getElementById("account").value;
+      const password = document.getElementById("password").value;
+
+      await fetch("http://localhost:5000/api/passwords/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token
+        },
+        body: JSON.stringify({ type, account, password })
+      });
+
+      loadPasswords();
+      document.getElementById("passwordForm").reset();
+    });
+
+    // Load saved passwords
+    async function loadPasswords() {
+      const res = await fetch("http://localhost:5000/api/passwords/get", {
+        headers: { Authorization: token }
+      });
+      const data = await res.json();
+      const tbody = document.querySelector("#passwordTable tbody");
+      tbody.innerHTML = "";
+
+      data.forEach(entry => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${entry.type}</td>
+          <td><span onclick="copyText('${entry.account}')">${entry.account}</span></td>
+          <td><span onclick="copyText('${entry.password}')">${entry.password}</span></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Password generator
+    function generatePassword() {
+      const strength = document.getElementById("strength").value;
+      let chars = "";
+      if (strength === "strong") chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+      else if (strength === "medium") chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      else chars = "abcdefghijklmnopqrstuvwxyz";
+
+      let password = "";
+      const length = strength === "strong" ? 16 : strength === "medium" ? 10 : 6;
+      for (let i = 0; i < length; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+
+      document.getElementById("generated").innerText = "Generated: " + password;
+      document.getElementById("password").value = password;
+    }
+
+    // Copy text to clipboard
+    function copyText(text) {
+      navigator.clipboard.writeText(text);
+      alert("Copied: " + text);
+    }
+
+    // Logout
+    function logout() {
+      localStorage.removeItem("token");
+      window.location.href = "login.html";
+    }
+
+    // Load data on start
+    loadPasswords();
+  </script>
+</body>
+</html>
