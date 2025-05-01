@@ -15,7 +15,7 @@ This project is a web-based password manager that allows users to securely store
 
 ## How to Run Locally
 1. Clone the repository:  
-   `git clone https://github.com/your-username/password-manager.git`
+   `git clone https://github.com/ronaessi-28/password-manager.git`
 
 2. Install dependencies:  
    `npm install`
