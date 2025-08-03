@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+ 
 const passwordSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     type: { type: String, enum: ['gmail', 'app'], required: true },
