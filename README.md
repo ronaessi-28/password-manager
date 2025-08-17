@@ -12,7 +12,7 @@ This project is a web-based password manager that allows users to securely store
 - MongoDB (Atlas)
 - JWT for authentication
 - HTML, CSS, JavaScript on frontend
-
+ 
 ## How to Run Locally
 1. Clone the repository:  
    `git clone https://github.com/ronaessi-28/password-manager.git`
