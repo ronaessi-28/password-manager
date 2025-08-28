@@ -4,7 +4,7 @@ This project is a web-based password manager that allows users to securely store
  
 - User login/signup    
 - Password storage and retrieval
-- Password generation (Strong, Medium, Weak)   
+- Password generation (Strong, Medium, Weak)    
 - Clipboard copy functionality      
   
 ## Tech Stack 
