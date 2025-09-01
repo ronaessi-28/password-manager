@@ -1,4 +1,4 @@
-# Password Manager
+# Password Manager 
  
 This project is a web-based password manager that allows users to securely store Gmail and app passwords. It features: 
    
