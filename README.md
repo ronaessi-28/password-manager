@@ -1,7 +1,7 @@
 # Password Manager
  
 This project is a web-based password manager that allows users to securely store Gmail and app passwords. It features: 
-  
+   
 - User login/signup    
 - Password storage and retrieval 
 - Password generation (Strong, Medium, Weak)     
