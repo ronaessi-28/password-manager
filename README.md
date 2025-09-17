@@ -8,7 +8,7 @@ This project is a web-based password manager that allows users to securely store
 - Clipboard copy functionality        
   
 ## Tech Stack  
-- Node.js & Express    
+- Node.js & Express     
 - MongoDB (Atlas) 
 - JWT for authentication
 - HTML, CSS, JavaScript on frontend
