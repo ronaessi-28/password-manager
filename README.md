@@ -9,7 +9,7 @@ This project is a web-based password manager that allows users to securely store
   
 ## Tech Stack  
 - Node.js & Express    
-- MongoDB (Atlas)
+- MongoDB (Atlas) 
 - JWT for authentication
 - HTML, CSS, JavaScript on frontend
  
