@@ -5,7 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const passwordRoutes = require('./routes/passwords'); 
 
-dotenv.config();
+dotenv.config(); 
 const app = express(); 
 
 app.use(cors());
